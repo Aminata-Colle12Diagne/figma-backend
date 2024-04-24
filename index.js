@@ -78,6 +78,6 @@ app.post("/addHotel", async (req, res) => {
     }
 });
 
-app.listen(10000, () => {
+app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://0.0.0.0:${PORT}`);
 });
