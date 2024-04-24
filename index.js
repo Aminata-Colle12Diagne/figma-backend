@@ -8,6 +8,10 @@ app.use(cors());
 
 // Middleware pour permettre de lire les données JSON dans les requêtes
 app.use(express.json());
+
+app.use(express.static('public'));
+
+
 app.use((req, res, next) => {
     //allow access to current url. work for https as well
     res.setHeader('Access-Control-Allow-Origin',req.header('Origin'));
@@ -58,7 +62,7 @@ app.post('/forgot-password', (req, res) => {
                         subject: "password reset",
                         html: `
                             <p>You requested for password reset</p>
-                            <h5>click in this <a href="https://figma-server-1-mfopva0y3-colle-diagnes-projects.vercel.app/forgot-password/${token}" >link</a>to reset password</h5>`
+                            <h5>click in this <a href="https://figma-backend-mocha.vercel.app/forgot-password/${token}" >link</a>to reset password</h5>`
                     });
                 });
             });
