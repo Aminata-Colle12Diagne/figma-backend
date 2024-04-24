@@ -9,7 +9,7 @@ app.use(cors());
 // Middleware pour permettre de lire les données JSON dans les requêtes
 app.use(express.json());
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 
 app.use((req, res, next) => {
