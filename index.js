@@ -13,14 +13,16 @@ app.use(express.static('public'));
 
 
 app.use((req, res, next) => {
-    //allow access to current url. work for https as well
-    res.setHeader('Access-Control-Allow-Origin',req.header('Origin'));
+    const origin = req.header('Origin');
+    if (origin) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
     res.removeHeader('x-powered-by');
-    //allow access to current method
-    res.setHeader('Access-Control-Allow-Methods',req.method);
-    res.setHeader('Access-Control-Allow-Headers','Content-Type');
+    res.setHeader('Access-Control-Allow-Methods', req.method);
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
-  })
+});
+
 
 const PORT = process.env.PORT || 10000;
 require('./db/connection');
