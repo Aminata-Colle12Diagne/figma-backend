@@ -94,3 +94,6 @@ app.get('/', (req, res) => res.send('Hello world'));
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://0.0.0.0:${PORT}`);
 });
+
+// Export the Express API
+module.exports = app;
