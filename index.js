@@ -27,30 +27,58 @@ require('./db/connection');
 const Users = require('./Model/User');
 const UserModal = require('./Model/Data');
 
-app.get('/', (req, res) => res.send('Hello world'));
+// app.get('/', (req, res) => res.send('Hello world'));
 
 
+// authentification
+app.post("/", async (req, res) => {
+    try {
+        // Crée un nouvel utilisateur à partir des données de la requête
+        let user = new Users(req.body);
+        // Enregistre l'utilisateur dans la base de données
+        let result = await user.save();
+        // Renvoie la réponse avec les détails de l'utilisateur créé
+        res.status(201).json(result);
+    } catch (error) {
+        // Gestion des erreurs : renvoie une réponse d'erreur avec le message approprié
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la création de l'utilisateur" });
+    }
+});
 
-// app.post("/", async (req, res) => {
-//     let user = new Users(req.body);
-//     let result = await user.save();
-//     res.send(result);
-// });
+app.get("/getHotels", async (req, res) => {
+    try {
+        // Recherche tous les hôtels dans la base de données
+        UserModal.find({})
+            .then((hotels) => {
+                // Renvoie la liste des hôtels sous forme de réponse JSON
+                res.status(200).json(hotels);
+            })
+            .catch((error) => {
+                // Gestion des erreurs : renvoie une réponse d'erreur avec un message explicite
+                console.error(error);
+                res.status(500).json({ message: "Erreur lors de la recherche des hôtels" });
+            });
+    } catch (error) {
+        // Ce bloc ne sera jamais atteint car les erreurs asynchrones sont gérées par le .catch()
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la recherche des hôtels" });
+    }
+});
 
-// app.get("/getHotels", async (req, res) => {
-//     try {
-//         UserModal.find({})
-//         .then(function (ut) {
-//             res.json(ut);
-//         })
-//         .catch(function (err) {
-//             res.json(err);
-//         });
-//     } catch (error) {
-//         console.log('erreur')
-//     }
-   
-// });
+app.post("/addHotel", async (req, res) => {
+    const hotelData = req.body;
+
+    try {
+        const newHotel = new UserModal(hotelData);
+        await newHotel.save();
+        res.json(newHotel);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Erreur lors de l'ajout des données de l'hôtel");
+    }
+});
+
 
 // app.post('/forgot-password', (req, res) => {
 //     crypto.randomBytes(32, (err, Buffer) => {
@@ -78,18 +106,7 @@ app.get('/', (req, res) => res.send('Hello world'));
 //     });
 // });
 
-// app.post("/addHotel", async (req, res) => {
-//     const hotelData = req.body;
 
-//     try {
-//         const newHotel = new UserModal(hotelData);
-//         await newHotel.save();
-//         res.json(newHotel);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send("Erreur lors de l'ajout des données de l'hôtel");
-//     }
-// });
 
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://0.0.0.0:${PORT}`);
