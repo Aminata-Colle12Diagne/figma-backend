@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const dataSchema = new mongoose.Schema({
     nom: {
         type:String,
-        require:true
+        required:true
     },
     adresse: {
         type:String,
-        require:true
+        required:true
     },
     email: {
         type:String,
@@ -23,11 +23,11 @@ const dataSchema = new mongoose.Schema({
     },
     montant: {
         type:String,
-        require:true
+        required:true
     },
     imageURL: {
         type: String, // Stockez l'URL de l'image
-        require:true
+        required:true
     }
     
 
